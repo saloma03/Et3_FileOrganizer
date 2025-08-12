@@ -27,7 +27,7 @@ namespace FileOrganizer.Core
         #endregion
 
         #region Organization
-        public void StartOrganization(string folderPath)
+        public void StartOrganization(string folderPath, bool simulate = false)
         {
             categoryCounts.Clear();
             var files = fileManager.ScanFolder(folderPath);
@@ -45,13 +45,20 @@ namespace FileOrganizer.Core
                     categoryCounts[destinationFolder] = 1;
                 }
 
-
-                ICommand command = new OrganizeCommand(file, destinationFolder, fileManager);
-                undoManager.Execute(command);
-                actionLogger.Log($"Moved {file.Name} to {destinationFolder}");
+                if (simulate)
+                {
+                    actionLogger.Log($"SIMULATE: Would move {file.Name} to {destinationFolder}");
+                }
+                else
+                {
+                    ICommand command = new OrganizeCommand(file, destinationFolder, fileManager);
+                    undoManager.Execute(command);
+                    actionLogger.Log($"Moved {file.Name} to {destinationFolder}");
+                }
+                LogCategorySummary();
             }
-            LogCategorySummary();
         }
+
 
         private string DetermineDestination(FileModel file)
         {
@@ -62,6 +69,16 @@ namespace FileOrganizer.Core
 
 
         #endregion
+
+        #region Undo 
+        public void UndoLastOperation()
+        {
+            undoManager.Undo();
+        }
+
+
+        #endregion
+
 
         #region Final Move Summary
         private void LogCategorySummary()

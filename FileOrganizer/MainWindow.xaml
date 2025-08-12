@@ -5,8 +5,118 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileOrganizer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="File Organizer" Height="500" Width="850"
+        WindowStartupLocation="CenterScreen">
 
+    <!-- Resource Dictionary for Global Styles -->
+    <Window.Resources>
+        <!-- Modern Button Style -->
+        <Style x:Key="MainButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="220"/>
+            <Setter Property="Height" Value="55"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Background" Value="#4A6FA5"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="3" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                    CornerRadius="8"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3A5A80"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2A4A70"/>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Title Text Style -->
+        <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="38"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="0,40,0,0"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.5"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Modern Background Gradient -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#2C3E50" Offset="0"/>
+                <GradientStop Color="#4A6FA5" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Main Content Container -->
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="330">
+            <!-- Title with Icon -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="File Organizer" Style="{StaticResource TitleTextStyle}"/>
+            </StackPanel>
+
+            <!-- Buttons Container -->
+            <StackPanel Margin="0,60,0,0">
+                <!-- File Path Input and Browse Button -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBox Name="FolderPathTextBox" Width="220" Height="30" Margin="0,0,10,0" VerticalAlignment="Center" />
+                    <Button Content="Browse" Width="75" Height="30" VerticalAlignment="Center" Click="BrowseButton_Click"/>
+                </StackPanel>
+
+                <!-- Organize Button -->
+                <Button Content="Start Organizing Files" 
+                        Style="{StaticResource MainButtonStyle}"
+                        Margin="0,20,0,0" 
+                        Click="OrganizeButton_Click"/>
+
+                <!-- Undo Button -->
+                <Button Content="Undo Last Operation" 
+                        Style="{StaticResource MainButtonStyle}" 
+                        Margin="0,20,0,0"
+                        Click="UndoButton_Click"/>
+            </StackPanel>
+
+            <!-- Status Bar -->
+            <TextBlock x:Name="StatusText" 
+                       Text="Ready to organize your files" 
+                       Foreground="#E0E0E0" 
+                       FontSize="14" 
+                       HorizontalAlignment="Center" 
+                       Margin="0,40,0,0"/>
+        </StackPanel>
     </Grid>
 </Window>
