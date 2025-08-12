@@ -1,5 +1,6 @@
 ﻿using FileOrganizer.Commands;
 using FileOrganizer.Core.Interfaces;
+using FileOrganizer.Core.Logging;
 using FileOrganizer.Models;
 
 namespace FileOrganizer.Core
@@ -57,6 +58,13 @@ namespace FileOrganizer.Core
         }
 
 
+        #endregion
+
+        #region Final Move Summary
+        private void LogCategorySummary()
+        {
+
+        }
         #endregion
     }
 }
