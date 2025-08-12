@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FileOrganizer.Core.Interfaces
+﻿namespace FileOrganizer.Core.Interfaces
 {
-    internal interface ICommand
+    public interface ICommand
     {
+        void Execute();
+        void Undo();
+
     }
 }

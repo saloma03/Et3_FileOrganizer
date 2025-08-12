@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FileOrganizer.Models
+﻿namespace FileOrganizer.Models
 {
-    internal interface File
+    public class FileModel
     {
+        public string Name { get; set; } = default!;
+        public string Extension { get; set; } = default!;
+
+        public string Path { get; set; } = default!;
+
+        public string OriginalPath { get; set; } = default!;
     }
 }
