@@ -9,12 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Commands\" />
     <Folder Include="Assets\" />
-    <Folder Include="Core\Interfaces\" />
-    <Folder Include="Core\Logging\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
