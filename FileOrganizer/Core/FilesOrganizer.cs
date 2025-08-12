@@ -10,6 +10,7 @@ namespace FileOrganizer.Core
         #region fields
         private FileManager fileManager;
         private UndoManager undoManager;
+        private ActionLogger actionLogger;
         private Dictionary<string, int> categoryCounts = new Dictionary<string, int>();
         private readonly List<Rule> rules;
         #endregion
@@ -19,6 +20,7 @@ namespace FileOrganizer.Core
         {
             this.fileManager = fileManager;
             this.undoManager = undoManager;
+            this.actionLogger = new ActionLogger();
             this.rules = settingManager.LoadRules(); 
         }
 
@@ -46,7 +48,7 @@ namespace FileOrganizer.Core
 
                 ICommand command = new OrganizeCommand(file, destinationFolder, fileManager);
                 undoManager.Execute(command);
-
+                actionLogger.Log($"Moved {file.Name} to {destinationFolder}");
             }
         }
 
