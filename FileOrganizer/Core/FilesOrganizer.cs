@@ -50,6 +50,7 @@ namespace FileOrganizer.Core
                 undoManager.Execute(command);
                 actionLogger.Log($"Moved {file.Name} to {destinationFolder}");
             }
+            LogCategorySummary();
         }
 
         private string DetermineDestination(FileModel file)
@@ -65,7 +66,12 @@ namespace FileOrganizer.Core
         #region Final Move Summary
         private void LogCategorySummary()
         {
-
+            actionLogger.Log("\n=== Organization Summary ===");
+            foreach (var kvp in categoryCounts)
+            {
+                actionLogger.Log($"{kvp.Key}: {kvp.Value} files");
+            }
+            actionLogger.Log("==========================\n");
         }
         #endregion
     }
