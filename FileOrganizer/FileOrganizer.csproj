@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\Loggings\**" />
+    <EmbeddedResource Remove="Core\Loggings\**" />
+    <None Remove="Core\Loggings\**" />
+    <Page Remove="Core\Loggings\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Assets\" />
     <Folder Include="Commands\" />
   </ItemGroup>
