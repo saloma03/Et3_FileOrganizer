@@ -214,7 +214,6 @@ Et3_FileOrganizer/
 
 
 
-- Add recursive folder scanning for subdirectories.
 
 
 
