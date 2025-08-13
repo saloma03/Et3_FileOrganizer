@@ -8,4 +8,20 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Core\Loggings\**" />
+    <EmbeddedResource Remove="Core\Loggings\**" />
+    <None Remove="Core\Loggings\**" />
+    <Page Remove="Core\Loggings\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Core" Version="1.1.5" />
+    <PackageReference Include="System.IO.Abstractions" Version="22.0.15" />
+  </ItemGroup>
+
 </Project>

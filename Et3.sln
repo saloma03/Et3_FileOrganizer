@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35919.96 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileOrganizer", "FileOrganizer\FileOrganizer.csproj", "{3F30BDEE-DA70-41B5-8AE2-DFE0333C0255}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileOrganizer.Tests", "FileOrganizer.Tests\FileOrganizer.Tests.csproj", "{E22F6F26-B42F-4CBE-8F96-7A99110EED0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3F30BDEE-DA70-41B5-8AE2-DFE0333C0255}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F30BDEE-DA70-41B5-8AE2-DFE0333C0255}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F30BDEE-DA70-41B5-8AE2-DFE0333C0255}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E22F6F26-B42F-4CBE-8F96-7A99110EED0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E22F6F26-B42F-4CBE-8F96-7A99110EED0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E22F6F26-B42F-4CBE-8F96-7A99110EED0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E22F6F26-B42F-4CBE-8F96-7A99110EED0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
