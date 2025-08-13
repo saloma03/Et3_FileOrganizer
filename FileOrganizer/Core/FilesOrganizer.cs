@@ -34,8 +34,6 @@ namespace FileOrganizer.Core
             foreach (var file in files)
             {
                 string destinationFolder = DetermineDestination(file);
-
-                // Update category count
                 if (categoryCounts.ContainsKey(destinationFolder))
                 {
                     categoryCounts[destinationFolder]++;
@@ -44,7 +42,6 @@ namespace FileOrganizer.Core
                 {
                     categoryCounts[destinationFolder] = 1;
                 }
-
                 if (simulate)
                 {
                     actionLogger.Log($"SIMULATE: Would move {file.Name} to {destinationFolder}");
@@ -55,10 +52,9 @@ namespace FileOrganizer.Core
                     undoManager.Execute(command);
                     actionLogger.Log($"Moved {file.Name} to {destinationFolder}");
                 }
-                LogCategorySummary();
             }
+            LogCategorySummary();
         }
-
 
         private string DetermineDestination(FileModel file)
         {

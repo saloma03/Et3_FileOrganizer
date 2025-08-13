@@ -28,7 +28,7 @@ namespace FileOrganizer.Commands
             this.file = file;
             this.destination = destination;
             this.fileManager = fileManager;
-            this.fileSystem = fileManager.GetFileSystem(); // يجب إضافة هذه الدالة في FileManager
+            this.fileSystem = fileManager.GetFileSystem(); 
 
         }
         #endregion

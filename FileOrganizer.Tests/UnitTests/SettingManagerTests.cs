@@ -1,4 +1,5 @@
-﻿using FileOrganizer.Core;
+﻿using System.IO.Abstractions.TestingHelpers;
+using FileOrganizer.Core;
 using FluentAssertions;
 
 namespace FileOrganizer.Tests.UnitTests
@@ -10,20 +11,14 @@ namespace FileOrganizer.Tests.UnitTests
 
         [Fact]
         public void LoadRules_WhenFileNotExists_ShouldReturnDefaultRules()
-
         {
-            // Arrange
-            var tempFile = Path.GetTempFileName();
-            File.Delete(tempFile); 
-            var manager = new SettingManager(tempFile);
-
-            // Act
+            var fileSystem = new MockFileSystem();
+            var tempFile = @"C:\temp\settings.json";
+            var manager = new SettingManager(fileSystem, tempFile);
             var rules = manager.LoadRules();
-
-            // Assert
             rules.Should().NotBeEmpty();
             rules.Should().Contain(r => r.Extension == ".jpg" && r.FolderName == "Images");
-            File.Exists(tempFile).Should().BeTrue(); 
+            fileSystem.File.Exists(tempFile).Should().BeTrue();
         }
         #endregion
 
@@ -31,22 +26,18 @@ namespace FileOrganizer.Tests.UnitTests
         [Fact]
         public void SaveRules_ShouldCreateValidJsonFile()
         {
-            // Arrange
-            var tempFile = Path.GetTempFileName();
-            File.Delete(tempFile);
-            var manager = new SettingManager(tempFile);
+            var fileSystem = new MockFileSystem();
+            var tempFile = @"C:\temp\settings.json";
+            var manager = new SettingManager(fileSystem, tempFile);
             var rules = new List<Rule>
-            {
-                new Rule { Extension = ".test", FolderName = "TestFolder" }
-            };
-
-            // Act
+    {
+        new Rule { Extension = ".test", FolderName = "TestFolder" }
+    };
             manager.SaveRules(rules);
             var loadedRules = manager.LoadRules();
-
-            // Assert
             loadedRules.Should().BeEquivalentTo(rules);
-        } 
+            fileSystem.File.Exists(tempFile).Should().BeTrue();
+        }
         #endregion
     }
 

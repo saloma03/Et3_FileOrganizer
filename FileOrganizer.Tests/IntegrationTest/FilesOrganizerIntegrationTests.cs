@@ -19,7 +19,7 @@ namespace FileOrganizer.Tests.IntegrationTest
             _fileSystem = new MockFileSystem();
 
             var fileManager = new FileManager(_fileSystem);
-            var settingManager = new SettingManager();
+            var settingManager = new SettingManager(_fileSystem);
             var undoManager = new UndoManager();
 
             _organizer = new FilesOrganizer(fileManager, settingManager, undoManager);

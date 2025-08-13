@@ -24,7 +24,7 @@ namespace FileOrganizer
             IFileSystem realFileSystem = new FileSystem();
 
             var realFileManager = new FileManager(realFileSystem);
-            var realSettingManager = new SettingManager();
+            var realSettingManager = new SettingManager(realFileSystem);
             var realUndoManager = new UndoManager();
             fileOrganizer = new FilesOrganizer(realFileManager, realSettingManager, realUndoManager);
         }

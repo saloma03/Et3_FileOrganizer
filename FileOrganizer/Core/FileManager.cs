@@ -89,10 +89,10 @@ namespace FileOrganizer.Core
             // File.Delete(destinationPath);
 
             // Option 3: Rename 
-            string dir = Path.GetDirectoryName(destinationPath);
-            string fileName = Path.GetFileNameWithoutExtension(destinationPath);
-            string ext = Path.GetExtension(destinationPath);
-            destinationPath = Path.Combine(dir, $"{fileName}_{DateTime.Now:yyyyMMddHHmmss}{ext}");
+            string dir = _fileSystem.Path.GetDirectoryName(destinationPath);
+            string fileName = _fileSystem.Path.GetFileNameWithoutExtension(destinationPath);
+            string ext = _fileSystem.Path.GetExtension(destinationPath);
+            destinationPath = _fileSystem.Path.Combine(dir, $"{fileName}_{DateTime.Now:yyyyMMddHHmmss}{ext}");
         }
         #endregion
 
@@ -106,7 +106,7 @@ namespace FileOrganizer.Core
         {
             try
             {
-                var originalDir = Path.GetDirectoryName(fullPath);
+                var originalDir = _fileSystem.Path.GetDirectoryName(fullPath);
                 if (!_fileSystem.Directory.Exists(originalDir))
                 {
                     _fileSystem.Directory.CreateDirectory(originalDir);
@@ -120,7 +120,7 @@ namespace FileOrganizer.Core
                 _fileSystem.File.Move(file.Path, fullPath);
                 file.Path = fullPath;
 
-                var sourceDir = Path.GetDirectoryName(file.Path);
+                var sourceDir = _fileSystem.Path.GetDirectoryName(file.Path);
                 if (_fileSystem.Directory.Exists(sourceDir) &&
                     !_fileSystem.Directory.GetFiles(sourceDir).Any() &&
                     !_fileSystem.Directory.GetDirectories(sourceDir).Any())
@@ -130,6 +130,7 @@ namespace FileOrganizer.Core
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine($"Error while moving file: {ex.Message}");
                 throw;
             }
