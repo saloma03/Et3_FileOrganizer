@@ -1,7 +1,6 @@
 ﻿
 
 using System.Diagnostics;
-using System.IO.Abstractions;
 using FileOrganizer.Core;
 using FileOrganizer.Core.Interfaces;
 using FileOrganizer.Models;
@@ -12,7 +11,6 @@ namespace FileOrganizer.Commands
     {
         #region fields
         private FileModel file;
-        private string originalPath;
         private string destination;
         private FileManager fileManager;
         private readonly IFileSystem fileSystem;
@@ -21,24 +19,31 @@ namespace FileOrganizer.Commands
         #region Constructor
         public OrganizeCommand(FileModel file, string destination, FileManager fileManager)
         {
+            this.file = file ?? throw new ArgumentNullException(nameof(file));
+            this.destination = destination ?? throw new ArgumentNullException(nameof(destination));
+            this.fileManager = fileManager ?? throw new ArgumentNullException(nameof(fileManager));
             if (string.IsNullOrEmpty(file.OriginalPath))
             {
                 file.OriginalPath = file.Path;
             }
-            this.file = file;
-            this.destination = destination;
-            this.fileManager = fileManager;
-            this.fileSystem = fileManager.GetFileSystem(); 
-
+            this.fileSystem = fileManager.GetFileSystem();
         }
+
         #endregion
 
         #region Execute
         public void Execute()
         {
-            fileManager.MoveFile(file, destination);
+            try
+            {
+                fileManager.MoveFile(file, destination);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to execute move for {file.Name}: {ex.Message}");
+                throw;
+            }
         }
-
         #endregion
 
         #region Undo

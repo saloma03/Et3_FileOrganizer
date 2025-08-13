@@ -108,6 +108,12 @@
                         Style="{StaticResource MainButtonStyle}" 
                         Margin="0,20,0,0"
                         Click="UndoButton_Click"/>
+
+                <!-- Undo All Button -->
+                <Button Content="Undo All Operations" 
+                        Style="{StaticResource MainButtonStyle}" 
+                        Margin="0,20,0,0"
+                        Click="UndoAllButton_Click"/>
             </StackPanel>
 
             <!-- Status Bar -->
@@ -117,6 +123,8 @@
                        FontSize="14" 
                        HorizontalAlignment="Center" 
                        Margin="0,40,0,0"/>
+
+
         </StackPanel>
     </Grid>
 </Window>

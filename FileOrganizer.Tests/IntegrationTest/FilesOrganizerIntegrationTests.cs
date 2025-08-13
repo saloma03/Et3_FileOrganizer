@@ -20,9 +20,9 @@ namespace FileOrganizer.Tests.IntegrationTest
 
             var fileManager = new FileManager(_fileSystem);
             var settingManager = new SettingManager(_fileSystem);
-            var undoManager = new UndoManager();
+            var undoManager = new UndoManager(_fileSystem);
 
-            _organizer = new FilesOrganizer(fileManager, settingManager, undoManager);
+            _organizer = new FilesOrganizer(fileManager, settingManager, _fileSystem);
             InitializeTestFolder();
         }
 

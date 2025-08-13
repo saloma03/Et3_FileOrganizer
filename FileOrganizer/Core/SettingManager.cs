@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.IO.Abstractions;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace FileOrganizer.Core
 {
