@@ -222,9 +222,6 @@ Et3_FileOrganizer/
 
 
 
-- Introduce multithreading for better performance with large folders.
-
-
 
 - Enhance logging with a structured library like Serilog.
 
