@@ -5,7 +5,7 @@ using FileOrganizer.Models;
 namespace FileOrganizer.Core
 
 {
-    internal class FileManager
+    public class FileManager
     {
         #region properties
         private readonly IFileSystem _fileSystem;

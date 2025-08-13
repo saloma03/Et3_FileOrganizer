@@ -57,16 +57,16 @@ namespace FileOrganizer
                 ObservableCollection<string> simulationLogs = ActionLogger.Logs;
 
                 // show preview 
-                var previewWindow = new PreviewWindow();
+                var previewWindow = new PreviewWindow(folderPath, simulationLogs, fileOrganizer);
                 previewWindow.Owner = this;
 
                 this.Hide(); 
                 previewWindow.ShowDialog(); 
                 this.Show(); 
 
-                //StatusText.Text = previewWindow.UserConfirmed
-                //    ? "Organization completed successfully!"
-                //    : "Preview completed. No changes were made.";
+                StatusText.Text = previewWindow.UserConfirmed
+                    ? "Organization completed successfully!"
+                    : "Preview completed. No changes were made.";
             }
             catch (Exception ex)
             {

@@ -4,7 +4,7 @@ using FileOrganizer.Core.Interfaces;
 
 namespace FileOrganizer.Core
 {
-    internal class UndoManager
+    public class UndoManager
     {
         #region Fields
         private Stack<ICommand> history = new Stack<ICommand>();
