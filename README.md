@@ -166,7 +166,7 @@ Et3_FileOrganizer/
 <img width="1151" height="808" alt="image" src="https://github.com/user-attachments/assets/3ccad3fb-e6ab-4c57-ab69-dcaa250ad8ec" />
 
 ### 🎨 Application Demo 
-![ScreenRecording2025-08-13191452-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/e2f56c7d-fa40-4bfe-a844-c6e3465ea639)
+![WhatsAppVideo2025-08-13at10 08 42PM-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/806ff8bb-24f3-40cd-b4dc-9280f140ec48)
 
 ### 📝 Notes for Reviewers
 ### `Getting Started: `
