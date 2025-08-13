@@ -57,7 +57,7 @@ namespace FileOrganizer
                 ObservableCollection<string> simulationLogs = ActionLogger.Logs;
 
                 // show preview 
-                var previewWindow = new PreviewWindow();
+                var previewWindow = new PreviewWindow(folderPath, simulationLogs, fileOrganizer);
                 previewWindow.Owner = this;
 
                 this.Hide(); 

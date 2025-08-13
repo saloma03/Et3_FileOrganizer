@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace FileOrganizer.Core
 {
-    internal class SettingManager
+    public class SettingManager
     {
         #region properties
         private readonly string _settingsFilePath;
