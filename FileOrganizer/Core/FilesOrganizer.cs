@@ -1,4 +1,5 @@
-﻿using FileOrganizer.Commands;
+﻿using System.Windows;
+using FileOrganizer.Commands;
 using FileOrganizer.Core.Interfaces;
 using FileOrganizer.Core.Logging;
 using FileOrganizer.Models;
@@ -16,10 +17,10 @@ namespace FileOrganizer.Core
         #endregion
 
         #region Constructors
-        public FilesOrganizer(FileManager fileManager, SettingManager settingManager, UndoManager undoManager)
+        public FilesOrganizer(FileManager fileManager, SettingManager settingManager, IFileSystem fileSystem)
         {
             this.fileManager = fileManager;
-            this.undoManager = undoManager;
+            this.undoManager = new UndoManager(fileSystem);
             this.actionLogger = new ActionLogger();
             this.rules = settingManager.LoadRules(); 
         }
@@ -44,13 +45,13 @@ namespace FileOrganizer.Core
                 }
                 if (simulate)
                 {
-                    actionLogger.Log($"SIMULATE: Would move {file.Name} to {destinationFolder}");
+                    actionLogger.LogMessage($"SIMULATE: Would move {file.Name} to {destinationFolder}");
                 }
                 else
                 {
                     ICommand command = new OrganizeCommand(file, destinationFolder, fileManager);
                     undoManager.Execute(command);
-                    actionLogger.Log($"Moved {file.Name} to {destinationFolder}");
+                    actionLogger.LogMessage($"Moved {file.Name} to {destinationFolder}");
                 }
             }
             LogCategorySummary();
@@ -71,20 +72,37 @@ namespace FileOrganizer.Core
         {
             undoManager.Undo();
         }
+        public void UndoAllAndCleanup(string folderPath)
+        {
+            if (string.IsNullOrEmpty(folderPath) || !System.IO.Directory.Exists(folderPath))
+            {
+                actionLogger.LogMessage("Error: Invalid or non-existent folder path for cleanup.");
+                return;
+            }
 
-
+            try
+            {
+                undoManager.UndoAllAndCleanup(fileManager, folderPath);
+                actionLogger.LogMessage($"All operations undone and empty folders in {folderPath} cleaned up.");
+            }
+            catch (Exception ex)
+            {
+                actionLogger.LogMessage($"Error during UndoAllAndCleanup: {ex.Message}");
+                MessageBox.Show($"Failed to undo all operations: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
         #endregion
 
 
         #region Final Move Summary
         private void LogCategorySummary()
         {
-            actionLogger.Log("\n=== Organization Summary ===");
+            actionLogger.LogMessage("\n=== Organization Summary ===");
             foreach (var kvp in categoryCounts)
             {
-                actionLogger.Log($"{kvp.Key}: {kvp.Value} files");
+                actionLogger.LogMessage($"{kvp.Key}: {kvp.Value} files");
             }
-            actionLogger.Log("==========================\n");
+            actionLogger.LogMessage("==========================\n");
         }
         #endregion
     }

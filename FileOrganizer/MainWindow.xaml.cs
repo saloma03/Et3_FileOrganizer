@@ -25,8 +25,8 @@ namespace FileOrganizer
 
             var realFileManager = new FileManager(realFileSystem);
             var realSettingManager = new SettingManager(realFileSystem);
-            var realUndoManager = new UndoManager();
-            fileOrganizer = new FilesOrganizer(realFileManager, realSettingManager, realUndoManager);
+            var realUndoManager = new UndoManager(realFileSystem);
+            fileOrganizer = new FilesOrganizer(realFileManager, realSettingManager, realFileSystem);
         }
 
         #endregion
@@ -60,9 +60,9 @@ namespace FileOrganizer
                 var previewWindow = new PreviewWindow(folderPath, simulationLogs, fileOrganizer);
                 previewWindow.Owner = this;
 
-                this.Hide(); 
-                previewWindow.ShowDialog(); 
-                this.Show(); 
+                this.Hide();
+                previewWindow.ShowDialog();
+                this.Show();
 
                 //StatusText.Text = previewWindow.UserConfirmed
                 //    ? "Organization completed successfully!"
@@ -81,17 +81,66 @@ namespace FileOrganizer
         {
             try
             {
-                fileOrganizer.UndoLastOperation();
+                var result = System.Windows.MessageBox.Show(
+                    "Are you sure you want to undo the last operation?",
+                    "Confirm Undo",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning
+                );
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    fileOrganizer.UndoLastOperation();
+                    StatusText.Text = "Last operation undone.";
+                }
+                else
+                {
+                    StatusText.Text = "Undo canceled.";
+                }
             }
             catch (Exception ex)
             {
                 StatusText.Text = $"Undo failed: {ex.Message}";
             }
         }
+
+        private void UndoAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string folderPath = FolderPathTextBox.Text.Trim();
+                if (string.IsNullOrEmpty(folderPath) || !System.IO.Directory.Exists(folderPath))
+                {
+                    StatusText.Text = "Please select a valid folder first.";
+                    return;
+                }
+
+                var result = System.Windows.MessageBox.Show(
+                    "Are you sure you want to undo ALL operations and clean up empty folders?",
+                    "Confirm Undo All",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning
+                );
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    fileOrganizer.UndoAllAndCleanup(folderPath);
+                    StatusText.Text = "All operations undone and empty folders cleaned up.";
+                }
+                else
+                {
+                    StatusText.Text = "Undo All canceled.";
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusText.Text = $"Undo all failed: {ex.Message}. Check logs for details.";
+            }
+        }
+
         #endregion
 
         #region Browse
-
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -112,8 +161,7 @@ namespace FileOrganizer
             {
                 StatusText.Text = $"Error selecting folder: {ex.Message}";
             }
-        } 
+        }
         #endregion
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.IO.Abstractions;
-using FileOrganizer.Models;
+﻿using FileOrganizer.Models;
 
 namespace FileOrganizer.Core
 
@@ -32,11 +30,11 @@ namespace FileOrganizer.Core
         /*this function iterats in the folder and stores every file 
         [name, path, extension, originalpath] in list and return it 
         */
-        public List<FileModel> ScanFolder(string path)
+        public List<FileModel> ScanFolder(string path, bool recursive = false)
         {
             var files = new List<FileModel>();
-
-            foreach (var filePath in _fileSystem.Directory.GetFiles(path))
+            var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+            foreach (var filePath in _fileSystem.Directory.GetFiles(path, "*", searchOption))
             {
                 files.Add(new FileModel
                 {
@@ -48,7 +46,6 @@ namespace FileOrganizer.Core
             }
             return files;
         }
-
 
         #endregion
 
@@ -121,21 +118,42 @@ namespace FileOrganizer.Core
                 file.Path = fullPath;
 
                 var sourceDir = _fileSystem.Path.GetDirectoryName(file.Path);
-                if (_fileSystem.Directory.Exists(sourceDir) &&
-                    !_fileSystem.Directory.GetFiles(sourceDir).Any() &&
-                    !_fileSystem.Directory.GetDirectories(sourceDir).Any())
-                {
-                    _fileSystem.Directory.Delete(sourceDir);
-                }
+                DeleteEmptyDirectory(sourceDir);
             }
             catch (Exception ex)
             {
-
                 Console.WriteLine($"Error while moving file: {ex.Message}");
                 throw;
             }
         }
 
+        private void DeleteEmptyDirectory(string directoryPath)
+        {
+            if (string.IsNullOrEmpty(directoryPath) || !_fileSystem.Directory.Exists(directoryPath))
+                return;
+
+            try
+            {
+                if (!_fileSystem.Directory.GetFiles(directoryPath).Any() &&
+                    !_fileSystem.Directory.GetDirectories(directoryPath).Any())
+                {
+                    _fileSystem.Directory.Delete(directoryPath, recursive: false);
+                    var parentDirectory = _fileSystem.Path.GetDirectoryName(directoryPath);
+                    if (!string.IsNullOrEmpty(parentDirectory))
+                    {
+                        DeleteEmptyDirectory(parentDirectory);
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine($"Access denied while deleting directory {directoryPath}: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting directory {directoryPath}: {ex.Message}");
+            }
+        }
         #endregion
 
     }
