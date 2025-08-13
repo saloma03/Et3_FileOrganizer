@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using FileOrganizer.Core;
 
 namespace FileOrganizer
 {
@@ -19,9 +9,65 @@ namespace FileOrganizer
     /// </summary>
     public partial class PreviewWindow : Window
     {
-        public PreviewWindow()
+        #region Fields
+
+        private string _folderPath;
+        private FilesOrganizer organizer;
+        private ObservableCollection<string> _simulationLogs;
+
+        #endregion
+
+        #region Properties
+        public bool UserConfirmed { get; private set; }
+
+        #endregion
+
+        #region Constructors
+        public PreviewWindow(string folderPath, ObservableCollection<string> simulationLogs, FilesOrganizer organizer)
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+                _folderPath = folderPath;
+                _simulationLogs = simulationLogs;
+                DisplaySimulationLogs();
+                this.organizer = organizer; // Store the organizer instance
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error initializing PreviewWindow: {ex.InnerException?.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Close();
+            }
         }
+
+        #endregion
+
+        #region Simulation
+        private void DisplaySimulationLogs()
+        {
+            simulationLogListBox.ItemsSource = _simulationLogs;
+        }
+        #endregion
+
+
+        #region Handle User Decision
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            organizer.StartOrganization(_folderPath, false);
+
+            MessageBox.Show("File Organization Done Successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            UserConfirmed = true;
+            this.Close();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserConfirmed = false;
+            this.Close();
+        }
+
+        #endregion
+
     }
 }
