@@ -10,8 +10,8 @@ namespace FileOrganizer.Tests.IntegrationTest
         private readonly MockFileSystem _fileSystem;
         private readonly FilesOrganizer _organizer;
         private readonly string _testFolderPath = Path.Combine("C:", "test_folder");
-
         #endregion
+
 
         #region Constructors
         public FilesOrganizerIntegrationTests()
@@ -21,9 +21,10 @@ namespace FileOrganizer.Tests.IntegrationTest
             var fileManager = new FileManager(_fileSystem);
             var settingManager = new SettingManager(_fileSystem);
             var undoManager = new UndoManager();
-
+           
             _organizer = new FilesOrganizer(fileManager, settingManager, undoManager);
             InitializeTestFolder();
+
         }
 
         #endregion
@@ -92,6 +93,56 @@ namespace FileOrganizer.Tests.IntegrationTest
             _fileSystem.Directory.GetFiles(Path.Combine(_testFolderPath, "Images")).Should().BeEmpty();
             _fileSystem.Directory.GetFiles(Path.Combine(_testFolderPath, "Videos")).Should().BeEmpty();
             _fileSystem.Directory.GetFiles(Path.Combine(_testFolderPath, "Others")).Should().BeEmpty();
+        }
+
+        [Fact]
+        public void StartOrganization_LargeFolder_ShouldMoveFilesCorrectlyAndSupportUndo()
+        {
+            // Arrange
+            var largeFolderPath = Path.Combine("C:", "large_test_folder");
+            _fileSystem.AddDirectory(largeFolderPath);
+
+            var fileCount = 100;
+            var originalPaths = new Dictionary<string, string>();
+
+            for (int i = 0; i < fileCount; i++)
+            {
+                string fileName = $"file{i}.{(i % 4 == 0 ? "pdf" : i % 4 == 1 ? "jpg" : i % 4 == 2 ? "mp4" : "xyz")}";
+                string filePath = Path.Combine(largeFolderPath, fileName);
+                _fileSystem.AddFile(filePath, new MockFileData($"Content of {fileName}"));
+                originalPaths[fileName] = filePath; 
+            }
+
+            // Act
+            _organizer.StartOrganization(largeFolderPath);
+
+            // Assert
+            for (int i = 0; i < fileCount; i++)
+            {
+                string fileName = $"file{i}.{(i % 4 == 0 ? "pdf" : i % 4 == 1 ? "jpg" : i % 4 == 2 ? "mp4" : "xyz")}";
+                string expectedFolder = i % 4 == 0 ? "Documents" : i % 4 == 1 ? "Images" : i % 4 == 2 ? "Videos" : "Others";
+                string expectedPath = Path.Combine(largeFolderPath, expectedFolder, fileName);
+                _fileSystem.File.Exists(expectedPath).Should().BeTrue($"File {fileName} should exist in {expectedFolder}");
+            }
+
+            _fileSystem.Directory.GetFiles(Path.Combine(largeFolderPath, "Documents")).Should().HaveCount(25); // 100 / 4
+            _fileSystem.Directory.GetFiles(Path.Combine(largeFolderPath, "Images")).Should().HaveCount(25);
+            _fileSystem.Directory.GetFiles(Path.Combine(largeFolderPath, "Videos")).Should().HaveCount(25);
+            _fileSystem.Directory.GetFiles(Path.Combine(largeFolderPath, "Others")).Should().HaveCount(25);
+
+            for (int i = 0; i < fileCount; i++)
+            {
+                _organizer.UndoLastOperation();
+            }
+
+            foreach (var file in originalPaths)
+            {
+                _fileSystem.File.Exists(file.Value).Should().BeTrue($"File {file.Key} should be restored to {file.Value}");
+            }
+            _fileSystem.Directory.GetFiles(Path.Combine(largeFolderPath, "Documents")).Should().BeEmpty();
+            _fileSystem.Directory.GetFiles(Path.Combine(largeFolderPath, "Images")).Should().BeEmpty();
+            _fileSystem.Directory.GetFiles(Path.Combine(largeFolderPath, "Videos")).Should().BeEmpty();
+            _fileSystem.Directory.GetFiles(Path.Combine(largeFolderPath, "Others")).Should().BeEmpty();
         }
     }
 
