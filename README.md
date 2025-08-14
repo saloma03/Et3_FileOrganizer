@@ -160,10 +160,10 @@ Et3_FileOrganizer/
 <img width="712" height="472" alt="FileOrganizerUseCase drawio" src="https://github.com/user-attachments/assets/2a4cc1d3-1455-4cbb-884b-1da7b9fd6de1" />
 
 #### Class Diagram 
-<img width="1742" height="875" alt="Screenshot 2025-08-11 193823" src="https://github.com/user-attachments/assets/df1d1425-572c-4bca-9a7f-4735cd991c60" />
+<img width="2474" height="669" alt="image" src="https://github.com/user-attachments/assets/29f7407a-ea71-4895-9ca2-e6915ddbd2e6" />
 
 #### Sequence Diagram
-<img width="1151" height="808" alt="image" src="https://github.com/user-attachments/assets/3ccad3fb-e6ab-4c57-ab69-dcaa250ad8ec" />
+<img width="1347" height="1004" alt="image" src="https://github.com/user-attachments/assets/9729c634-fd65-4971-abfa-bbccd813cbe5" />
 
 ### 🎨 Application Demo 
 ![WhatsAppVideo2025-08-13at10 08 42PM-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/806ff8bb-24f3-40cd-b4dc-9280f140ec48)
