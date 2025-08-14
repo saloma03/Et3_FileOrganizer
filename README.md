@@ -160,7 +160,7 @@ Et3_FileOrganizer/
 <img width="712" height="472" alt="FileOrganizerUseCase drawio" src="https://github.com/user-attachments/assets/2a4cc1d3-1455-4cbb-884b-1da7b9fd6de1" />
 
 #### Class Diagram 
-<img width="1151" height="808" alt="image" src="https://github.com/user-attachments/assets/c906fbf8-6272-48c3-af8e-3880227f9cc7" />
+<img width="1742" height="875" alt="Screenshot 2025-08-11 193823" src="https://github.com/user-attachments/assets/df1d1425-572c-4bca-9a7f-4735cd991c60" />
 
 #### Sequence Diagram
 <img width="1151" height="808" alt="image" src="https://github.com/user-attachments/assets/3ccad3fb-e6ab-4c57-ab69-dcaa250ad8ec" />
